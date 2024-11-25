@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/your-username/sast-demo-app.git', branch: 'master'
+                git url: 'https://github.com/ArNote17/sast-demo-app', branch: 'master'
             }
         }
         stage('Install Dependencies') {
