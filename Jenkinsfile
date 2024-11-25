@@ -11,21 +11,28 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                # Verifikasi versi Python
-                python3 --version
-                
-                # Instal bandit menggunakan pip3
-                pip3 install bandit
+                # Buat virtual environment
+                python3 -m venv venv
+
+                # Aktifkan virtual environment
+                . venv/bin/activate
+
+                # Instal bandit di dalam virtual environment
+                pip install bandit
                 '''
             }
         }
         stage('SAST Analysis') {
             steps {
                 sh '''
-                # Jalankan Bandit untuk analisis statis
+                # Aktifkan virtual environment
+                . venv/bin/activate
+
+                # Jalankan bandit untuk analisis
                 bandit -f xml -o bandit-output.xml -r . || true
                 '''
-                // Rekam hasil analisis dengan Jenkins plugin
+                
+                // Rekam hasil analisis
                 recordIssues tools: [bandit(pattern: 'bandit-output.xml')]
             }
         }
