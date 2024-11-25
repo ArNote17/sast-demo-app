@@ -11,13 +11,16 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                # Pastikan Python tersedia
+                python3 --version
+                
                 # Buat virtual environment
                 python3 -m venv venv
 
                 # Aktifkan virtual environment
                 . venv/bin/activate
 
-                # Instal bandit di dalam virtual environment
+                # Instal Bandit
                 pip install bandit
                 '''
             }
@@ -28,7 +31,7 @@ pipeline {
                 # Aktifkan virtual environment
                 . venv/bin/activate
 
-                # Jalankan bandit untuk analisis
+                # Jalankan analisis Bandit
                 bandit -f xml -o bandit-output.xml -r . || true
                 '''
                 
