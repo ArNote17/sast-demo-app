@@ -34,10 +34,18 @@ pipeline {
                 # Jalankan analisis Bandit
                 bandit -f xml -o bandit-output.xml -r . || true
                 '''
-                
-                // Rekam hasil analisis
-                recordIssues tools: [bandit(pattern: 'bandit-output.xml')]
+
+                // Simpan hasil analisis
+                archiveArtifacts artifacts: 'bandit-output.xml', allowEmptyArchive: true
             }
+        }
+    }
+    post {
+        always {
+            sh '''
+            # Bersihkan virtual environment
+            rm -rf venv
+            '''
         }
     }
 }
