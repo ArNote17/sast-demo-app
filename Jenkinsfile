@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/ArNote17/sast-demo-app', branch: 'master'
+                git branch: 'master',
+                        url: 'https://github.com/ArNote17/sast-demo-app',
+                        credentialsId: 'github-pat'
             }
         }
         stage('Install Dependencies') {
